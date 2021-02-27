@@ -1,20 +1,40 @@
 const chronometer = new Chronometer();
+chronometer.printClock;
 
 // get the buttons:
 const btnLeft = document.getElementById('btnLeft');
+
 btnLeft.addEventListener('click', ()=>{
   const btnLeftClassName = btnLeft.getAttribute('class');
   if(btnLeftClassName === 'btn start'){
+    chronometer.startClick();
+    chronometer.printClock = setInterval(printTime, 1000)
     btnLeft.setAttribute('class', 'btn stop');
     btnLeft.innerHTML = "STOP";
   } else {
+    chronometer.stopClick();
+    clearInterval(chronometer.printClock);
+    console.log('stop print');
     btnLeft.setAttribute('class', 'btn start');
     btnLeft.innerHTML = "START";
   }
 })
 
+
 const btnRight = document.getElementById('btnRight');
 
+btnRight.addEventListener('click', ()=>{
+  const btnRightClassName = btnRight.getAttribute('class');
+  if(btnRightClassName === 'btn reset'){
+    chronometer.resetClick();
+    btnRight.setAttribute('class', 'btn split');
+    btnRight.innerHTML = 'SPLIT';
+  } else {
+    chronometer.splitClick();
+    btnRight.setAttribute('class', 'btn reset');
+    btnRight.innerHTML = 'RESET';
+  }
+})
 
 // get the DOM elements that will serve us to display the time:
 let minDec = document.getElementById('minDec');
@@ -26,15 +46,28 @@ let milUni = document.getElementById('milUni');
 let splits = document.getElementById('splits');
 
 function printTime() {
-  // ... your code goes here
+  printSeconds();
+  printMinutes();
 }
 
 function printMinutes() {
-  // ... your code goes here
+  let minutes = (chronometer.getMinutes()).toString();
+  if(minutes.length === 1){
+    minUni.innerHTML = minutes;
+  } else {
+    minDec.innerHTML = minutes[0];
+    minUni.innerHTML = minutes[1];
+  }
 }
 
 function printSeconds() {
-  // ... your code goes here
+  let seconds = chronometer.getSeconds().toString();
+  if(seconds.length === 1){
+    secUni.innerHTML = seconds;
+  } else {
+    secUni.innerHTML = seconds[1];
+    secDec.innerHTML = seconds[0];
+  }
 }
 
 // ==> BONUS
@@ -65,13 +98,3 @@ function setStartBtn() {
 function setResetBtn() {
   // ... your code goes here
 }
-
-// Start/Stop Button
-btnLeft.addEventListener('click', () => {
-  // ... your code goes here
-});
-
-// Reset/Split Button
-btnRight.addEventListener('click', () => {
-  // ... your code goes here
-});
