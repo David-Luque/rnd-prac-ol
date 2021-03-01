@@ -1,38 +1,32 @@
 const chronometer = new Chronometer();
-chronometer.printClock;
 
 // get the buttons:
 const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
 
 btnLeft.addEventListener('click', ()=>{
   const btnLeftClassName = btnLeft.getAttribute('class');
   if(btnLeftClassName === 'btn start'){
     chronometer.startClick();
-    chronometer.printClock = setInterval(printTime, 1000)
-    btnLeft.setAttribute('class', 'btn stop');
-    btnLeft.innerHTML = "STOP";
-  } else {
+    chronometer.printClock = setInterval(printTime, 1)
+    setStopBtn();
+    setSplitBtn();
+  } else if(btnLeftClassName === 'btn stop'){
     chronometer.stopClick();
     clearInterval(chronometer.printClock);
-    console.log('stop print');
-    btnLeft.setAttribute('class', 'btn start');
-    btnLeft.innerHTML = "START";
+    setStartBtn();
+    setResetBtn();
   }
 })
-
-
-const btnRight = document.getElementById('btnRight');
 
 btnRight.addEventListener('click', ()=>{
   const btnRightClassName = btnRight.getAttribute('class');
   if(btnRightClassName === 'btn reset'){
     chronometer.resetClick();
-    btnRight.setAttribute('class', 'btn split');
-    btnRight.innerHTML = 'SPLIT';
-  } else {
-    chronometer.splitClick();
-    btnRight.setAttribute('class', 'btn reset');
-    btnRight.innerHTML = 'RESET';
+    printTime();
+    clearSplits();
+  } else if(btnRightClassName === 'btn split'){
+    printSplit();
   }
 })
 
@@ -45,7 +39,9 @@ let milDec = document.getElementById('milDec');
 let milUni = document.getElementById('milUni');
 let splits = document.getElementById('splits');
 
+
 function printTime() {
+  printMilliseconds();
   printSeconds();
   printMinutes();
 }
@@ -54,6 +50,7 @@ function printMinutes() {
   let minutes = (chronometer.getMinutes()).toString();
   if(minutes.length === 1){
     minUni.innerHTML = minutes;
+    minDec.innerHTML = 0;
   } else {
     minDec.innerHTML = minutes[0];
     minUni.innerHTML = minutes[1];
@@ -62,39 +59,53 @@ function printMinutes() {
 
 function printSeconds() {
   let seconds = chronometer.getSeconds().toString();
-  if(seconds.length === 1){
+  if(seconds.length < 2){
     secUni.innerHTML = seconds;
+    secDec.innerHTML = 0;
   } else {
     secUni.innerHTML = seconds[1];
     secDec.innerHTML = seconds[0];
   }
 }
 
-// ==> BONUS
 function printMilliseconds() {
-  // ... your code goes here
+  let miliseconds = chronometer.getMilliseconds().toString();
+  if(miliseconds.length < 2){
+    milUni.innerHTML = miliseconds;
+    milDec.innerHTML = 0;
+  } else {
+    milUni.innerHTML = miliseconds[1];
+    milDec.innerHTML = miliseconds[0];
+  }
 }
 
 function printSplit() {
-  // ... your code goes here
+  const time = chronometer.splitClick();
+  const newTime = document.createElement('li');
+  newTime.innerHTML = time;
+  splits.appendChild(newTime);
 }
 
 function clearSplits() {
-  // ... your code goes here
+  splits.innerHTML = '';
 }
 
 function setStopBtn() {
-  // ... your code goes here
+  btnLeft.setAttribute('class', 'btn stop');
+  btnLeft.innerHTML = "STOP";
 }
 
 function setSplitBtn() {
-  // ... your code goes here
+  btnRight.setAttribute('class', 'btn split');
+  btnRight.innerHTML = 'SPLIT';
 }
 
 function setStartBtn() {
-  // ... your code goes here
+  btnLeft.setAttribute('class', 'btn start');
+  btnLeft.innerHTML = "START";
 }
 
 function setResetBtn() {
-  // ... your code goes here
+  btnRight.setAttribute('class', 'btn reset');
+  btnRight.innerHTML = 'RESET';
 }
