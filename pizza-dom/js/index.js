@@ -118,7 +118,6 @@ function renderButtons() {
 
 function renderPrice() {
   const panelPrice = document.getElementsByClassName('panel price')[0];
-  const priceList = panelPrice.getElementsByTagName('ul');
   const items = panelPrice.getElementsByTagName('li');
   const totalPrice = panelPrice.getElementsByTagName('strong')[0];
 
