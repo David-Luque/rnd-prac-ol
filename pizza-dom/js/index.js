@@ -1,6 +1,3 @@
-// Write your Pizza Builder JavaScript in this file.
-
-// Constants
 let basePrice = 10;
 let ingredients = {
   pepperoni: { name: 'pepperoni', price: 1 },
@@ -10,15 +7,6 @@ let ingredients = {
   glutenFreeCrust: { name: 'Gluten-free crust', price: 5 }
 };
 
-// window.addEventListener('load', ()=>{
-//   for(let ingr in ingredients){
-//     if(state[ingr]){
-//       basePrice += ingredients[ingr].price;
-//     }
-//   }
-// })
-
-// Initial value of the state (the state values can change over time)
 let state = {
   pepperoni: true,
   mushrooms: true,
@@ -27,8 +15,6 @@ let state = {
   glutenFreeCrust: false
 };
 
-// This function takes care of rendering the pizza based on the state
-// This function is triggered once at the beginning and every time the state is changed
 function renderEverything() {
   renderPepperoni();
   renderMushrooms();
@@ -89,7 +75,6 @@ function renderGlutenFreeCrust() {
 }
 
 function renderButtons() {
-  //const buttons = document.getElementsByClassName('btn');
   if(state.pepperoni){
     document.getElementsByClassName('btn btn-pepperoni')[0]
     .setAttribute('class', 'btn btn-pepperoni active');
@@ -130,8 +115,6 @@ function renderButtons() {
     .setAttribute('class', 'btn btn-crust');
   };
 }
-
-
 
 function renderPrice() {
   const panelPrice = document.getElementsByClassName('panel price')[0];
