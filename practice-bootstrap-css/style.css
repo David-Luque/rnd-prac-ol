@@ -1,0 +1,12 @@
+#navbar {
+    background-color: burlywood;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+};
+ 
+
+#red-section {
+    background-color: crimson;
+};
