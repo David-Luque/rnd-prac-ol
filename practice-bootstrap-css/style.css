@@ -1,11 +1,13 @@
 #navbar {
-    background-color: burlywood;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 };
  
+#nav-section{
+    background-color: aquamarine
+};
 
 #red-section {
     background-color: crimson;

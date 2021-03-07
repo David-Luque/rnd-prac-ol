@@ -8,7 +8,7 @@ btnLeft.addEventListener('click', ()=>{
   const btnLeftClassName = btnLeft.getAttribute('class');
   if(btnLeftClassName === 'btn start'){
     chronometer.startClick();
-    chronometer.printClock = setInterval(printTime, 1)
+    chronometer.printClock = setInterval(printTime, 10)
     setStopBtn();
     setSplitBtn();
   } else if(btnLeftClassName === 'btn stop'){
@@ -69,13 +69,16 @@ function printSeconds() {
 }
 
 function printMilliseconds() {
-  let miliseconds = chronometer.getMilliseconds().toString();
-  if(miliseconds.length < 2){
-    milUni.innerHTML = miliseconds;
+  const miliseconds = chronometer.getMilliseconds().toString();
+  //console.log(miliseconds.charAt(0))
+  // milUni.innerHTML = miliseconds;
+  // milDec.innerHTML = '';
+  if(miliseconds.length === 1){
+    milUni.innerHTML = miliseconds.charAt(0);
     milDec.innerHTML = 0;
-  } else {
-    milUni.innerHTML = miliseconds[1];
-    milDec.innerHTML = miliseconds[0];
+  } else if (miliseconds.length > 1){
+    milUni.innerHTML = miliseconds.charAt(1);
+    milDec.innerHTML = miliseconds.charAt(0);
   }
 }
 

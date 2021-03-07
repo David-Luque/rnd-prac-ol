@@ -6,24 +6,24 @@ class Chronometer {
   startClick(callback) {
     const increaseCurrentTime = setInterval(()=>{
       this.currentTime++;
-    }, 1)
+    }, 10)
     this.intervalId = increaseCurrentTime;
   }
   getMinutes() {
-    const minutes = Math.floor(this.currentTime / 60000);
+    const minutes = Math.floor(this.currentTime / 6000);
     return minutes;
   }
   getSeconds() {
-    const minutes = Math.floor(this.currentTime / 60000);
-    const remainingTime = this.currentTime - minutes * 60000;
-    const seconds = Math.floor(remainingTime / 1000);
+    const minutes = Math.floor(this.currentTime / 6000);
+    const remainingTime = this.currentTime - minutes * 6000;
+    const seconds = Math.floor(remainingTime / 100);
     return seconds;
   }
   getMilliseconds(){
-    const minutes = Math.floor(this.currentTime / 60000);
-    let remainingTime = this.currentTime - minutes * 60000;
-    const seconds = Math.floor(remainingTime / 1000);
-    let milliseconds = remainingTime - seconds * 1000;
+    const minutes = Math.floor(this.currentTime / 6000);
+    const remainingTime = this.currentTime - minutes * 6000;
+    const seconds = Math.floor(remainingTime / 100);
+    const milliseconds = this.currentTime - (minutes * 6000) - (seconds * 100);
     return milliseconds
   }
 
