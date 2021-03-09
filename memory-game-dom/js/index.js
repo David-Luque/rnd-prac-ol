@@ -39,22 +39,25 @@ window.addEventListener('load', event => {
   // Add all the divs to the HTML
   document.querySelector('#memory-board').innerHTML = html;
 
-  function delayedResponse() {
-    setTimeout
-  }
+   
 
   // Bind the click event of each element to a function
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
       card.setAttribute('class', 'card turned');
       memoryGame.pickedCards.push(card);
-      //console.log(memoryGame.pickedCards)
+      console.log(memoryGame.pickedCards);
 
       if(memoryGame.pickedCards.length === 2){
-        const compare = memoryGame.checkIfPair(memoryGame.pickedCards[0], memoryGame.pickedCards[1]);
+        const cardName1 = memoryGame.pickedCards[0].getAttribute('data-card-name');
+        const cardName2 = memoryGame.pickedCards[1].getAttribute('data-card-name');
+
+        const compare = setTimeout(()=>{
+          memoryGame.checkIfPair(cardName1, cardName2);
+        }, 2000);
         
-        //TODO: set the setTimeout for following "if"
-        if(compare){
+        if(compare === true){
+          //console.log('compare!!')
           memoryGame.pickedCards[0].setAttribute('class', 'card blocked');
           memoryGame.pickedCards[1].setAttribute('class', 'card blocked');
           memoryGame.pickedCards = [];
