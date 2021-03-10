@@ -5,27 +5,21 @@ class MemoryGame {
     this.pairsClicked = 0;
     this.pairsGuessed = 0;
   }
-  shuffleCards(cards) {
-    if(!cards){return undefined}
-    var currentIndex = cards.length, temporaryValue, randomIndex;
+  shuffleCards() {
+    //if(arguments.length === 0){return undefined}
 
-    // While there remain elements to shuffle...
+    var currentIndex = this.cards.length, temporaryValue, randomIndex;
     while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = cards[currentIndex];
-    cards[currentIndex] = cards[randomIndex];
-    cards[randomIndex] = temporaryValue;
-  }
-  return cards;
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = this.cards[currentIndex];
+      this.cards[currentIndex] = this.cards[randomIndex];
+      this.cards[randomIndex] = temporaryValue;
+    }
+    return this.cards;
   }
   
   checkIfPair(card1, card2) {
-    console.log(card1, card2)
     this.pairsClicked++;
     if(card1 === card2){
       this.pairsGuessed++;
@@ -35,7 +29,7 @@ class MemoryGame {
   }
 
   isFinished() {
-    if(this.pairsGuessed === 8){
+    if(this.pairsGuessed === 12){
       return true
     } else {
       return false

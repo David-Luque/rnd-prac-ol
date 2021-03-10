@@ -26,6 +26,7 @@ const cards = [
 ];
 
 const memoryGame = new MemoryGame(cards);
+memoryGame.cards = memoryGame.shuffleCards();
 
 window.addEventListener('load', event => {
   let html = '';
@@ -35,43 +36,46 @@ window.addEventListener('load', event => {
     html +=   `<div class="front" style="background: url(img/${pic.img}) no-repeat"></div>`;
     html += `</div>`;
   });
-
-  // Add all the divs to the HTML
   document.querySelector('#memory-board').innerHTML = html;
-
    
-
-  // Bind the click event of each element to a function
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', () => {
-      card.setAttribute('class', 'card turned');
       memoryGame.pickedCards.push(card);
-      console.log(memoryGame.pickedCards);
+      card.setAttribute('class', 'card turned');
 
       if(memoryGame.pickedCards.length === 2){
         const cardName1 = memoryGame.pickedCards[0].getAttribute('data-card-name');
         const cardName2 = memoryGame.pickedCards[1].getAttribute('data-card-name');
-
-        const compare = setTimeout(()=>{
-          memoryGame.checkIfPair(cardName1, cardName2);
-        }, 2000);
         
-        if(compare === true){
-          //console.log('compare!!')
-          memoryGame.pickedCards[0].setAttribute('class', 'card blocked');
-          memoryGame.pickedCards[1].setAttribute('class', 'card blocked');
+        if(memoryGame.checkIfPair(cardName1, cardName2)){
           memoryGame.pickedCards = [];
-          const finishGame = memoryGame.isFinished;
+          const finishGame = memoryGame.isFinished();
           
           if(finishGame){
-            //SET FINAL DOM MESSAGE TO USER AND SCORE
+            const finalMessage =
+            `
+            <h1>YOU WIN!</h1>
+            <h2>You finish in</h2>
+            <br />
+            <h1>${memoryGame.pairsClicked}</h1>
+            <br />
+            <h2>attempts</h2>
+            `
+            const finalGame = setTimeout(()=>{
+              document.querySelector('#memory-board').innerHTML = finalMessage
+            }, 1500)
           }
 
         } else {
-          memoryGame.pickedCards[0].setAttribute('class', 'card');
-          memoryGame.pickedCards[1].setAttribute('class', 'card');
-          memoryGame.pickedCards = [];
+          const fail = setTimeout(()=>{
+            memoryGame.pickedCards[0].setAttribute('class', 'card');
+            memoryGame.pickedCards[1].setAttribute('class', 'card');
+            memoryGame.pickedCards = [];
+          }, 1000);
         }
+      
+        document.getElementById('pairs-clicked').innerHTML = memoryGame.pairsClicked;
+        document.getElementById('pairs-guessed').innerHTML = memoryGame.pairsGuessed;
       }
     });
   });
