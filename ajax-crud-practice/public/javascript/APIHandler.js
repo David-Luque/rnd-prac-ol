@@ -44,8 +44,8 @@ class APIHandler {
 
   createOneRegister (register) {
     axios.post(`${this.BASE_URL}/characters`, register)
-    .then(data =>{
-      console.log(`created successfylly ${data}`);
+    .then(response =>{
+      console.log(`created successfylly ${response}`);
       document.getElementById("send-data").style.backgroundColor = 'green';
     })
     .catch(err => {
@@ -54,22 +54,39 @@ class APIHandler {
     })
   }
 
+  fillUpdateRegister(id) {
+    axios.get(`${this.BASE_URL}/characters/${id}`)
+    .then(response => {
+      const formInputs = document.querySelectorAll('#edit-character-form input')
+      formInputs[0].value = id;
+      formInputs[1]. value = response.data.name;
+      formInputs [2].value = response.data.occupation;
+      formInputs[3].value = response.data.weapon;
+      if(response.data.cartoon) {
+        formInputs[4].setAttribute('checked', 'true')
+      }
+      console.log(formInputs[4])
+      document.getElementById('send-update').style.backgroundColor = 'transparent';
+    })
+    .catch(err => console.log(err))
+  }
+
   updateOneRegister(register) {
-    if(!register){
-      axios.get(`${this.BASE_URL}/characters/${register}`)
-      .then(res => console.log(res))
-    } else {
-      console.log('truly')
-    }
-    // axios.put(this.BASE_URL, register)
-    // .then(data => console.log(`updated successfylly ${data}`))
-    // .catch(err => console.log(err))
+    axios.put(`${this.BASE_URL}/characters/${register.id}`, register)
+    .then(response =>{
+      console.log(response.data)
+      document.getElementById('send-update').style.backgroundColor = 'green';
+    })
+    .catch(err =>{
+      console.log(err)
+      document.getElementById('send-update').style.backgroundColor = 'red';
+    })
   }
 
   deleteOneRegister(id) {
     axios.get(`${this.BASE_URL}/characters/${id}`)
-    .then(res => {
-      if(res){
+    .then(response => {
+      if(response){
         axios.delete(`${this.BASE_URL}/characters/${id}`)
         .then(() => {
           console.log('successfully deleted');

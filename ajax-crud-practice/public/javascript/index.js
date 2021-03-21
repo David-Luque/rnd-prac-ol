@@ -15,30 +15,43 @@ window.addEventListener('load', () => {
     charactersAPI.deleteOneRegister(deleteId);
   });
 
-  document.getElementById('send-update').addEventListener('click', ()=>{
-    const id = document.querySelector('#edit-character-form input').value;
-    charactersAPI.getOneRegister(searchId);
+
+
+
+  document.getElementById("search-update").addEventListener('click', ()=>{
+    //console.log('click')
+    const charId = document.querySelector('#edit-character-form input').value;
+    //console.log(charId)
+    charactersAPI.fillUpdateRegister(charId);
   })
 
   document.getElementById('edit-character-form').addEventListener('submit', function (event) {
     event.preventDefault();
-    console.log('submit')
-    const updateInputs = document.querySelectorAll('#edit-character-form input');
-    const idInput = updateInputs[0].value;
-    charactersAPI.updateOneRegister(idInput);
-
+    //console.log('submit')
+    const updatedInputs = document.querySelectorAll('#edit-character-form input')
+    const updatedCharacter = {
+      id: updatedInputs[0].value,
+      name: updatedInputs[1].value,
+      occupation: updatedInputs[2].value,
+      weapon: updatedInputs[3].value,
+      cartoon: updatedInputs[4].value
+    }
+    charactersAPI.updateOneRegister(updatedCharacter)
   });
+
+
 
   document.getElementById('new-character-form').addEventListener('submit', function (event) {
     event.preventDefault();
     const createInputs = document.querySelectorAll('#new-character-form input');
+    //console.log(createInputs);
     const newCharacter = {
-      name: createInputs[0].value,
-      occupation: createInputs[1].value,
-      weapon: createInputs[2].value,
-      cartoon: createInputs[3].value
+      [createInputs[0].name]: createInputs[0].value,
+      [createInputs[1].name]: createInputs[1].value,
+      [createInputs[2].name]: createInputs[2].value,
+      [createInputs[3].name]: createInputs[3].value
     };
-    console.log(newCharacter)
-    charactersAPI.createOneRegister(newCharacter);
+    console.log(newCharacter);
+    //charactersAPI.createOneRegister(newCharacter);
   });
 });

@@ -1,30 +1,30 @@
 {
   "characters": [
     {
-      "name": "Mariano",
-      "occupation": "vividor",
-      "weapon": "frenillo",
-      "cartoon": "true",
-      "id": 1
+      "id": 1,
+      "name": "Han Solo",
+      "occupation": "Smuggler",
+      "weapon": "Blaster Pistol",
+      "cartoon": true
     },
     {
-      "name": "Mariano",
-      "occupation": "vividor",
-      "weapon": "frenillo",
-      "cartoon": "true",
-      "id": 2
+      "id": 2,
+      "name": "Luke Skywalker",
+      "occupation": "Jedi Knight",
+      "weapon": "Lightsaber",
+      "cartoon": false
     },
     {
-      "name": "Mariano",
-      "occupation": "vividor",
-      "weapon": "frenillo",
-      "cartoon": "true",
-      "id": 3
+      "id": 3,
+      "name": "Sponge Bob",
+      "occupation": "Lives under the sea",
+      "weapon": "Crabby Patty",
+      "cartoon": true
     },
     {
-      "name": "",
-      "occupation": "",
-      "weapon": "",
+      "name": "Mario",
+      "occupation": "Militar",
+      "weapon": "Prepotencia",
       "cartoon": "true",
       "id": 4
     }
