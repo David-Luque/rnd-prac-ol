@@ -1,2 +1,30 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>Welcome</h1>
+
+<h2>Create place</h2>
+<form action="/places" method="POST" >
+  <label for="name">Name:</label>
+  <input type="text" name="name" id="name">
+
+  <label for="type">Type:</label>
+  <input type="text" name="type" id="type">
+
+  {{!-- <label for=""></label>
+  <input type="text"> --}}
+  
+  <input type="submit" value="Send">
+</form>
+
+
+<h2>Update place</h2>
+<form action="/places" method="GET" enctype="multipart/form-data">
+  <label for="name">Name:</label>
+  <input type="text" name="name" id="name">
+
+  <label for="type">Type:</label>
+  <input type="text" name="type" id="type">
+
+  {{!-- <label for=""></label>
+  <input type="text"> --}}
+  
+  <input type="submit" value="Send">
+</form>
