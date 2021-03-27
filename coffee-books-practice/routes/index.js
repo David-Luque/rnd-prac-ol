@@ -7,23 +7,43 @@ router.get("/", (req,res, next) => {
 })
 
 router.get("/places", (req, res, next)=>{
-  Place.find()
-  .then(data => {
-    res.send(data)
-  })
-  .catch(err => {
-    res.send(err)
-  })
+  
+  // Place.find()
+  // .then(data => {
+  //   res.send(data)
+  // })
+  // .catch(err => {
+  //   res.send(err)
+  // })
 });
 
 
 router.post("/places", (req, res, next)=>{
-  console.log(req.body)
-  const {name, type} = req.body;
-  console.log(name, type);
+  const {name, type, latitude, longitude} = req.body;
+  const location = {
+    type: 'Point',
+    coordinates: [latitude, longitude]
+  };
+
+  const newPlace = new Place({
+    name,
+    type,
+    location
+  });
+
+  newPlace.save(err => {
+    if(err){
+      next(err)
+    } else {
+      console.log("successfully posted")
+    }
+  })
+
+
 //   Place.create({
 //     name,
-//     type
+//     type,
+//     location
 //   })
 //   .then(() => {
 //     res.send(`${name} created successfully` )
