@@ -10,8 +10,7 @@ const logger       = require('morgan');
 const path         = require('path');
 
 
-mongoose
-  .connect('mongodb://localhost/books-coffe', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost/books-coffe', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
