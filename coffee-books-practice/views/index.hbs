@@ -17,18 +17,29 @@
   <input type="submit" value="Send">
 </form>
 
+<hr>
 
 <h2>Update place</h2>
-<form action="/places/edit/606365ba436a190e0950f500" method="POST">
+<form action="/places/edit/{{id}}" method="POST">
   <label for="name">Name:</label>
   <input type="text" name="name" id="name">
 
   <label for="type">Type:</label>
   <input type="text" name="type" id="type">
 
-<label>Address:</label>
+<br>
+
+<label>Coordenates:</label>
   <input type="text" name="latitude" placeholder="latitude">
   <input type="text" name="longitude" placeholder="longitude">
   
   <input type="submit" value="Update">
+</form>
+
+<hr>
+
+<form>
+  <label for="geocode">Geocode</label>
+  <input id="address" type="text" name="address">
+  <button id="submitGeo"> submit geocode</button>
 </form>
