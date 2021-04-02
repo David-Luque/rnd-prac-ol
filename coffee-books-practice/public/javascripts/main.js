@@ -3,7 +3,7 @@
 window.onload = ()=>{
   let map;
   
-  function startMap() {
+  function initMap() {
 
     const defaultPlace = {
       lat: 41.3977381,
@@ -89,14 +89,14 @@ window.onload = ()=>{
       geocoder.geocode({'address': address}, (result, status)=>{
         if(status === 'OK') {
           console.log(result)
-          // resultsMap.setCenter(result[0].geometry.location);
-          // let marker = new google.map.Marker({
-          //   map: resultsMap,
-          //   position: result[0].geometry.location,
-          //   title: 'title'
-          // });
-          // document.getElementById('latitude').value = result[0].geometry.location.lat();
-          // document.getElementById('longitude').value = result[0].geometry.location.lng();
+          const marker = new google.map.Marker({
+            map: resultsMap,
+            position: result[0].geometry.location,
+            title: 'Title'
+          });
+          resultsMap.setCenter(marker.position);
+          document.getElementById('latitude').value = result[0].geometry.location.lat();
+          document.getElementById('longitude').value = result[0].geometry.location.lng();
         } else {
           alert(`Geocode was not successfull for the following reason: ${status}`)
         };
@@ -105,7 +105,7 @@ window.onload = ()=>{
   
   }
   
-  startMap();
+  initMap();
 
 }
 
