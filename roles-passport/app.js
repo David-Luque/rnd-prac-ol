@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const flash = require('flash');
+const flash = require('connect-flash');
 
 mongoose.connect('mongodb://localhost/passport-roles', {
     useNewUrlParser: true,

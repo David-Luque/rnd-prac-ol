@@ -9,7 +9,11 @@ const userSchema = new Schema(
     profileImg: String,
     description: String,
     facebookId: String,
-    role: {type: String, enum: ['BOSS', 'DEV', 'TA', 'STUDENT', 'GUEST']}
+    role: {
+      type: String, 
+      enum: ['BOSS', 'DEV', 'TA', 'STUDENT', 'GUEST'],
+      default: 'BOSS'
+    }
   },
   {
     timestamps: true
