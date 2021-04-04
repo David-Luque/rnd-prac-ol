@@ -1,3 +1,6 @@
+
+
+
 require('dotenv').config();
 
 const bodyParser = require('body-parser');
@@ -13,6 +16,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
+const User = require('./models/User.model');
 
 mongoose.connect('mongodb://localhost/passport-roles', {
     useNewUrlParser: true,
@@ -78,7 +82,8 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 const index = require('./routes/index.routes');
 app.use('/', index);
 const authRoutes = require('./routes/auth.routes');
-const User = require('./models/User.model');
 app.use('/', authRoutes);
+const courseRoutes = require('./routes/courses.routes');
+app.use('/', courseRoutes);
 
 module.exports = app;
