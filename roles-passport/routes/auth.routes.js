@@ -57,6 +57,15 @@ router.post('/login', passport.authenticate('local', {
     passReqToCallback: true
 }));
 
+
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback', passport.authenticate('facebook', {
+    successRedirect: '/private-page',
+    failureRedirect: '/'
+}));
+
+
 router.get('/private-page', ensureAuthenticated, (req, res)=>{
     res.send({ message: "logged users page"});
 });

@@ -2,6 +2,7 @@ const express = require('express');
 const { post } = require('./auth.routes');
 const router = express.Router();
 const Course = require('../models/Course.model');
+const User = require('../models/User.model');
 
 function checkRole(role){
     return function(req, res, next){
@@ -91,12 +92,35 @@ router.post('/update-course/:id', checkRole('TA'), (req, res, next)=>{
 });
 
 // DELETE COURSE
-
 router.get('/delete-course/:id', checkRole('TA'), (req, res, next)=>{
     const course_id = req.params.id;
     Course.findByIdAndDelete(course_id)
     .then(()=>{res.send({ message: "course successfully deleted" })})
     .catch(err=> res.send(err))
 });
+
+//SEE ALL ALUMNIS
+router.get('/alumnis', (req, res, next)=>{
+    User.find({ role: 'STUDENT' })
+    .then(data => {
+        console.log('data successfully send')
+        res.send(data);
+    })
+    .catch(err => res.send(err))
+});
+
+//ADD ALUMN TO COURSE
+router.post('/add-student/:id/course/:course_id', checkRole('TA'), (req, res)=>{
+    const student_id = req.params.id;
+    const course_id = req.params.course_id;
+
+    Course.findByIdAndUpdate(course_id, { $push: {students: student_id} }, {new: true})
+    .then(result => {
+        console.log(result);
+        res.send({ message: 'student successfully added' })
+    })
+    .catch(err => res.send(err))
+});
+
 
 module.exports = router;

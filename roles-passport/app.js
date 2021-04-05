@@ -1,4 +1,6 @@
-
+//TODO: RESOLVER TEMA DEL DEFAULT QUE NO ME HACE CASO
+//TODO: AVERIGUAR SI PUEDO EXPORTAR E IMPORTAR EL MIDDLEWARE DE LOS ROLES
+//TODO: test last new routes
 
 
 require('dotenv').config();
@@ -15,6 +17,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const flash = require('connect-flash');
 const User = require('./models/User.model');
 
@@ -67,6 +70,31 @@ passport.use(new LocalStrategy({
     return next(null, user);
   })
 }));
+
+passport.use(new FacebookStrategy(
+  {
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: '/auth/facebook/callback'
+  }, 
+  function(accessToken, refreshToken, profile, done){
+    console.log("Facebook account details ", profile);
+    User.findOne({ facebookId: profile.id })
+    .then(user => {
+      if(user){
+        done(null, user);
+        return;
+      }
+      User.create({ facebookId: profile.id })
+      .then(newUser => {
+        done(null, newUser);
+      })
+      .catch(err => done(err))
+    })
+    .catch(err => done(err))
+  }
+));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
