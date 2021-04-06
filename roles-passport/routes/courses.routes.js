@@ -3,6 +3,7 @@ const { post } = require('./auth.routes');
 const router = express.Router();
 const Course = require('../models/Course.model');
 const User = require('../models/User.model');
+//const check = require('./auth.routes');
 
 function checkRole(role){
     return function(req, res, next){
@@ -13,6 +14,14 @@ function checkRole(role){
         }
     }
 };
+
+function ensureAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    } else {
+        res.send({ message: "you must be logged to access this page" });
+    }
+}
 
 //CREATE COURSE
 router.post('/create-course', checkRole('TA'), (req, res) => {
@@ -25,7 +34,6 @@ router.post('/create-course', checkRole('TA'), (req, res) => {
     status,
     students
     } = req.body;
-
     const leadTeacher = req.body.leadTeacher._id;
     const ta = req.body.ta._id;
 
@@ -100,7 +108,7 @@ router.get('/delete-course/:id', checkRole('TA'), (req, res, next)=>{
 });
 
 //SEE ALL ALUMNIS
-router.get('/alumnis', (req, res, next)=>{
+router.get('/alumnis', ensureAuthenticated, (req, res, next)=>{
     User.find({ role: 'STUDENT' })
     .then(data => {
         console.log('data successfully send')

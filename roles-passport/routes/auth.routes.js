@@ -57,14 +57,12 @@ router.post('/login', passport.authenticate('local', {
     passReqToCallback: true
 }));
 
-
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/private-page',
     failureRedirect: '/'
 }));
-
 
 router.get('/private-page', ensureAuthenticated, (req, res)=>{
     res.send({ message: "logged users page"});
@@ -129,7 +127,7 @@ function ensureAuthenticated(req, res, next){
     }
 };
 
-function checkRole(role){
+ function checkRole(role){
     return function(req, res, next){
         if(req.isAuthenticated() && req.user.role === role) {
             return next(); 
@@ -139,6 +137,5 @@ function checkRole(role){
     }
 }
 
-
-
+//exports.checkTheRole = checkRole;
 module.exports = router;
