@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+.App img {
+  height: 200px;
+  width: auto;
+}
+
+.buttons {
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  height: 8vh;
+}
+
+.buttons button {
+  margin: 10px;
+  height: 70%;
+  border: none;
+  border-radius: 30px;
+  background-color: darkorange;
+  color: whitesmoke;
+  font-weight: bolder;
+  font-size: medium;
+}
+
+button:hover {
+  filter: brightness(90%);
+}
+
+button:focus{
+  outline: none;
+  filter: brightness(80%);
+}
