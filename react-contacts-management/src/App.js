@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import './App.css';
 import contacts from './contacts.json';
 
-//TODO: remove or avoid repeated contacts in "addContact()"
 //TODO: apply styles
 
 
@@ -31,12 +30,14 @@ class App extends Component {
 
   addContact = ()=>{
     const savedContacts = [...this.state.contacts];
-    // const allContacts = [...contacts];
-    // savedContacts.forEach(contact => {
-    //   allContacts.splice(X, 1)
-    // })
-    const randomNum = Math.floor(Math.random() * contacts.length);
-    savedContacts.push(contacts[randomNum]);
+    let filteredContacts = contacts;
+    savedContacts.forEach(contact => {
+      filteredContacts = filteredContacts.filter((contactDB)=>{
+        return contactDB.id !== contact.id
+      });
+    });
+    const randomNum = Math.floor(Math.random() * filteredContacts.length);
+    savedContacts.push(filteredContacts[randomNum]);
     this.setState({contacts: savedContacts});
   };
 
@@ -95,7 +96,6 @@ class App extends Component {
       </div>
     );
   }
-  
 }
 
 export default App;
