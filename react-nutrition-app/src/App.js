@@ -4,18 +4,19 @@ import './App.css';
 import foods from './foods.json';
 import Foodbox from './components/Foodbox';
 import NewFoodForm from './components/NewFoodForm';
-import SearchBar from './components/SearchBar';
+import Search from './components/Search';
 
 class App extends Component {
 
   state = {
-    foodsDB: foods,
+    foodsDB: [...foods], //=> BETTER MAKE A COPY OF THE DATA 
     isFormDisplayed: false,
-    filterFoods: null
+    searchBar: ""
   }
 
-  displayFoods = (array) => {
-    return array.map((food, index) => {
+  displayFoods = () => {
+    const filteredFoods = this.filterSeachFoods();
+    return filteredFoods.map((food, index) => {
       return <Foodbox {...food} key={index}/>
     });
   };
@@ -30,20 +31,17 @@ class App extends Component {
     this.setState({ foodsDB: foodsDBCopy, isFormDisplayed: false});
   };
 
-  displaySeachedFoods = (string)=>{
-    //console.log(string)
-    //if(string === ""){ return console.log("empty string")}
-    if(!string){ return this.displayFoods(this.state.foodsDB)}
-    
-    const filterFoods = this.state.foodsDB.filter(food => {
-      return food.name.toLowerCase().includes(string);
-    });
-
-    this.setState({ filterFoods });
-    console.log(this.state)
-    //this.displayFoods(this.state.filterFoods);
-
+  updateSeachFoods = (value)=>{
+    this.setState({ searchBar: value });
   };
+
+  filterSeachFoods = ()=>{
+    const filterFoods = this.state.foodsDB.filter(food => {
+      return food.name.toLowerCase().includes(this.state.searchBar.toLowerCase());
+    });
+    return filterFoods
+  };
+
 
 
   render(){
@@ -51,8 +49,8 @@ class App extends Component {
       <div className="App">
         <button onClick={()=>{this.displayForm()}}>Add new food</button>
         {this.state.isFormDisplayed && <NewFoodForm addFood={this.addNewFood}/>}
-        <SearchBar showFoods={this.displaySeachedFoods}/>
-        {this.displayFoods(this.state.foodsDB)}
+        <Search updateSeachFoods={this.updateSeachFoods}/>
+        {this.displayFoods()}
       </div>
     );
   }
