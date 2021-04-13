@@ -1,6 +1,24 @@
 import React from 'react';
 
 const Foodbox = (props) => {
+
+    let quantity;
+
+    const saveQuantity = (newQuantity)=>{
+        quantity = newQuantity
+    };
+
+    const sendFood = ()=>{
+        const {name, calories} = props 
+        const theFood = {
+            name,
+            calories,
+            quantity
+        }
+        props.addInTodaysFood(theFood)
+    };
+
+
     return (
         <div className="box">
             <article className="media">
@@ -20,12 +38,12 @@ const Foodbox = (props) => {
                 <div className="media-right">
                 <div className="field has-addons">
                     <div className="control">
-                    <input className="input" type="number" value="" />
+                        <input className="input" type="number" onChange={(e)=>{saveQuantity(e.target.value)}} />
                     </div>
                     <div className="control">
-                    <button className="button is-info">
-                        +
-                    </button>
+                        <button className="button is-info" onClick={sendFood} >
+                            +
+                        </button>
                     </div>
                 </div>
                 </div>

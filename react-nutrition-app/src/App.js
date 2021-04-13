@@ -9,15 +9,16 @@ import Search from './components/Search';
 class App extends Component {
 
   state = {
-    foodsDB: [...foods], //=> BETTER MAKE A COPY OF THE DATA 
+    foodsDB: [...foods], //=> BETTER SET A COPY OF THE DATA
     isFormDisplayed: false,
-    searchBar: ""
+    searchBar: "",
+    todaysFood: []
   }
 
   displayFoods = () => {
     const filteredFoods = this.filterSeachFoods();
     return filteredFoods.map((food, index) => {
-      return <Foodbox {...food} key={index}/>
+      return <Foodbox {...food} key={index} addInTodaysFood = {this.addInTodaysFood}/>
     });
   };
   
@@ -42,6 +43,23 @@ class App extends Component {
     return filterFoods
   };
 
+  addInTodaysFood = (theFood)=>{
+    const todaysFoodsCopy = [...this.state.todaysFood];
+    todaysFoodsCopy.push(theFood);
+    this.setState({ todaysFood: todaysFoodsCopy });
+  }
+
+  displayTodaysFood = ()=>{
+    const todaysAllFoods = [...this.state.todaysFood];
+    return todaysAllFoods.map((food, index)=>{
+      return (
+        <li className="column foodListItem" key={index} >
+          {food.quantity} {food.name} = {food.calories * food.quantity} cal
+        </li>
+      )
+    });
+  }
+
 
 
   render(){
@@ -50,6 +68,12 @@ class App extends Component {
         <button onClick={()=>{this.displayForm()}}>Add new food</button>
         {this.state.isFormDisplayed && <NewFoodForm addFood={this.addNewFood}/>}
         <Search updateSeachFoods={this.updateSeachFoods}/>
+        <div className="foodListContainer">
+          <h4>Today's food</h4>
+          <ul>
+            {this.displayTodaysFood()}
+          </ul>
+        </div>
         {this.displayFoods()}
       </div>
     );
