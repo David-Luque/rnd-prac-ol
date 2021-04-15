@@ -12,7 +12,8 @@ class App extends Component {
     foodsDB: [...foods], //=> BETTER SET A COPY OF THE DATA
     isFormDisplayed: false,
     searchBar: "",
-    todaysFood: []
+    todaysFood: [],
+    todaysTotalCal: 0
   }
 
   displayFoods = () => {
@@ -45,10 +46,43 @@ class App extends Component {
 
   addInTodaysFood = (theFood)=>{
     const todaysFoodsCopy = [...this.state.todaysFood];
-    todaysFoodsCopy.push(theFood);
-    this.setState({ todaysFood: todaysFoodsCopy });
-  }
+    //console.log(todaysFoodsCopy)
+    
+    if(todaysFoodsCopy.length === 0){
+      //console.log("first")
+      todaysFoodsCopy.push(theFood);
+      //console.log(todaysFoodsCopy)
+    } else {
+      //console.log("not first")
+      let isInTodaysFoods;
+      todaysFoodsCopy.forEach(food =>{
+        if(food.name === theFood.name){isInTodaysFoods = true} 
+      });
 
+      if(!isInTodaysFoods){
+        todaysFoodsCopy.push(theFood);
+      };
+
+      if(isInTodaysFoods){
+        todaysFoodsCopy.forEach(food => {
+          if(food.name === theFood.name){
+            food.quantity = food.quantity + theFood.quantity;
+          };
+        });
+      };
+    };
+    
+    const totalCal = todaysFoodsCopy.reduce((acc, food)=>{
+      return acc + (food.calories * food.quantity)
+    }, 0);
+
+    this.setState({ 
+      todaysTotalCal: totalCal,
+      todaysFood: todaysFoodsCopy 
+    });
+  };
+
+  
   displayTodaysFood = ()=>{
     const todaysAllFoods = [...this.state.todaysFood];
     return todaysAllFoods.map((food, index)=>{
@@ -58,7 +92,7 @@ class App extends Component {
         </li>
       )
     });
-  }
+  };
 
 
 
@@ -73,6 +107,7 @@ class App extends Component {
           <ul>
             {this.displayTodaysFood()}
           </ul>
+          <p>Total: {this.state.todaysTotalCal} cal</p>
         </div>
         {this.displayFoods()}
       </div>

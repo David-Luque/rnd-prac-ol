@@ -5,7 +5,7 @@ const Foodbox = (props) => {
     let quantity;
 
     const saveQuantity = (newQuantity)=>{
-        quantity = newQuantity
+        quantity = Number(newQuantity)
     };
 
     const sendFood = ()=>{
