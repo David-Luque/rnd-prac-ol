@@ -22,7 +22,6 @@ class newFoodForm extends React.Component {
         event.preventDefault();
         const {name, calories, image} = this.state.newFood;
         const theNewFood = {name, calories, image};
-        //console.log(theNewFood)
         this.props.addFood(theNewFood);
         this.setState({ newFood: {
             name: '',

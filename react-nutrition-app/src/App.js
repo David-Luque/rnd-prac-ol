@@ -46,14 +46,10 @@ class App extends Component {
 
   addInTodaysFood = (theFood)=>{
     const todaysFoodsCopy = [...this.state.todaysFood];
-    //console.log(todaysFoodsCopy)
     
     if(todaysFoodsCopy.length === 0){
-      //console.log("first")
       todaysFoodsCopy.push(theFood);
-      //console.log(todaysFoodsCopy)
     } else {
-      //console.log("not first")
       let isInTodaysFoods;
       todaysFoodsCopy.forEach(food =>{
         if(food.name === theFood.name){isInTodaysFoods = true} 
@@ -66,7 +62,7 @@ class App extends Component {
       if(isInTodaysFoods){
         todaysFoodsCopy.forEach(food => {
           if(food.name === theFood.name){
-            food.quantity = food.quantity + theFood.quantity;
+            food.quantity += theFood.quantity;
           };
         });
       };
@@ -82,13 +78,26 @@ class App extends Component {
     });
   };
 
-  
+  deleteTodayFood = (foodIndex)=>{
+    const todayFoodCopy = [...this.state.todaysFood];
+    todayFoodCopy.splice(foodIndex, 1);
+    const newTotalCal = todayFoodCopy.reduce((acc, food)=>{
+      return acc + (food.quantity * food.calories)
+    }, 0)
+    this.setState({
+      todaysFood: todayFoodCopy,
+      todaysTotalCal: newTotalCal
+    });
+  }
+
+
   displayTodaysFood = ()=>{
     const todaysAllFoods = [...this.state.todaysFood];
     return todaysAllFoods.map((food, index)=>{
       return (
         <li className="column foodListItem" key={index} >
           {food.quantity} {food.name} = {food.calories * food.quantity} cal
+          <button onClick={()=>{this.deleteTodayFood(index)}}>delete</button>
         </li>
       )
     });
@@ -99,7 +108,9 @@ class App extends Component {
   render(){
     return (
       <div className="App">
-        <button onClick={()=>{this.displayForm()}}>Add new food</button>
+        <button onClick={()=>{this.displayForm()}}>
+          {this.state.isFormDisplayed ? "Cancel" : "Add new food"}
+        </button>
         {this.state.isFormDisplayed && <NewFoodForm addFood={this.addNewFood}/>}
         <Search updateSeachFoods={this.updateSeachFoods}/>
         <div className="foodListContainer">
