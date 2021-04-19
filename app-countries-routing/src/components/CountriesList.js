@@ -1,36 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import countries from '../countries.json';
 
 
-class CountriesList extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            allCountries: [...countries]
-        }
-    }
+const CountriesList = (props)=> {
     
-    displayCountries = ()=>{
-        const allCountriesCopy = [...this.state.allCountries];
-        return allCountriesCopy.map(country => {
+    const displayCountries = ()=>{
+        const allCountriesCopy = props.countries;
+        return allCountriesCopy.map((country, index) => {
             return (
-                <Link to={`/countries/${country.cca3}`}>
-                    <div>
-                        <p>country</p>
+                <Link to={`/countries/${country.name}`} key={index}>
+                    <div >
+                        <p>{country.flag} {country.name}</p>
                     </div>
                 </Link>
             )
         });
     }
 
-    render(){
-        return(
-            <div>
-                {this.displayCountries}
-            </div>
-        );
-    };
+    return (
+        <div className="countries-list">
+            {displayCountries()}
+        </div>
+    );
 }
 
 export default CountriesList;
