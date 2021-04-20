@@ -9,8 +9,9 @@ const CountriesList = (props)=> {
         return allCountriesCopy.map((country, index) => {
             return (
                 <Link to={`/countries/${country.alpha3Code}`} key={index}>
-                    <div >
-                        <p>{country.flag} <br/> {country.name}</p>
+                    <div className="country-row">
+                        <img src={country.flag} alt={country.name} />
+                        <p>{country.name}</p>
                     </div>
                 </Link>
             )

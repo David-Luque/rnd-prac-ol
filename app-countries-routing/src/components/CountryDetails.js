@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import countries from '../countries.json';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class CountryDetails extends Component {
@@ -17,16 +17,30 @@ class CountryDetails extends Component {
         console.log("get info with " + this.state.countryCode)
         axios.get(`https://restcountries.eu/rest/v2/alpha/${this.state.countryCode}`)
         .then(response => {
-            this.setState({ country: response.data});
+            this.setState({ country: response.data });
         })
         .catch(err => console.log(err))
     };
+
+    componentDidUpdate(prevProps){
+        if(this.props.match.params.alpha3Code !== prevProps.match.params.alpha3Code){
+            axios.get(`https://restcountries.eu/rest/v2/alpha/${this.props.match.params.alpha3Code}`)
+            .then(response => {
+                this.setState({ country: response.data });
+            })
+            .catch(err => console.log(err))
+        }
+    }
     
 
     displayBorderCountries(){
-        return this.state.country.borders.map((borderCountry, index) => {
+        return this.state.country.borders.map((alpha3Code, index) => {
             return (
-                <li key={index}>{borderCountry}</li>
+                <li key={index}>
+                    <Link to={`/countries/${alpha3Code}`}>
+                        {alpha3Code}
+                    </Link>
+                </li>
             )
         });
     };
@@ -40,7 +54,7 @@ class CountryDetails extends Component {
                 <div>
                     <p>Borders:</p>
                     <ul>
-                    {this.displayBorderCountries()}
+                        {this.displayBorderCountries()}
                     </ul>
                 </div> 
             </div>
