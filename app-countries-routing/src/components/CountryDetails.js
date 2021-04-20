@@ -8,27 +8,28 @@ class CountryDetails extends Component {
     constructor(props){
         super(props);
         this.state = {
-            country: null,
-            countryName: props.match.params.name
+            countryCode: this.props.match.params.alpha3Code,
+            country: null
         };
     }
 
     componentDidMount(){
-        axios.get(`https://restcountries.eu/rest/v2/name/${this.state.countryName}`)
+        console.log("get info with " + this.state.countryCode)
+        axios.get(`https://restcountries.eu/rest/v2/alpha/${this.state.countryCode}`)
         .then(response => {
-            this.setState({ country: response.data[0]});
+            this.setState({ country: response.data});
         })
-        .catch(err => console.log(err))  
+        .catch(err => console.log(err))
     };
     
 
     displayBorderCountries(){
-        return this.state.country.borders.map(borderCountry => {
+        return this.state.country.borders.map((borderCountry, index) => {
             return (
-                <li>{borderCountry}</li>
+                <li key={index}>{borderCountry}</li>
             )
         });
-    }
+    };
 
     displayCountryInfo(){
         return (
@@ -43,8 +44,8 @@ class CountryDetails extends Component {
                     </ul>
                 </div> 
             </div>
-        ) 
-    }
+        )
+    };
 
     
     render(){

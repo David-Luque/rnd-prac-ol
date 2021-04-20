@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Switch, Route } from 'react-router';
-import CountryDetails from './components/CountryDetails';
 import Navbar from './components/Navbar';
 import CountriesList from './components/CountriesList';
+import CountryDetails from './components/CountryDetails';
 import axios from 'axios';
 
 
@@ -31,7 +31,7 @@ class App extends Component {
             {this.state.countries && <CountriesList countries={this.state.countries} />}
             <Switch>
               <Route 
-                exact path="/countries/:name" 
+                exact path="/countries/:alpha3Code" 
                 component={CountryDetails} 
               />
             </Switch>
