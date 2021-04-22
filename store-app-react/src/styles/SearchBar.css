@@ -1,0 +1,21 @@
+
+.searchBar {
+    padding: 30px;
+}
+
+#searchbar {
+    margin: 10px;
+    width: 50%;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+}
+
+#checkstock {
+    margin: 10px;
+}
+
+hr {
+    border: solid 1px whitesmoke;
+    margin: 0px 100px 20px;
+}

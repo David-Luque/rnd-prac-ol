@@ -1,0 +1,14 @@
+.filterProductsTable {
+    background-color: cornflowerblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: 100vh;
+}
+
+h1 {
+    margin-bottom: 0px;
+    color: blanchedalmond;
+    font-size: xx-large;
+}

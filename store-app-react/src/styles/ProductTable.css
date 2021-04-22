@@ -1,0 +1,17 @@
+
+.productTable {
+    background-color: rgb(44, 44, 44);
+    margin: 0px 150px;
+    padding: 0px;
+}
+
+tr {
+    background-color: rgb(230, 230, 230);
+    height: 30px;
+}
+
+thead tr {
+    background-color: rgb(200, 200, 200);
+    height: 40px;
+}
+

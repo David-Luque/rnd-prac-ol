@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/ProductRow.css';
 
 const productRow = (props)=> {
     return(

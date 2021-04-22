@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SearchBar from './SearchBar';
 import ProductTable from './ProductTable';
 import productsData from '../data.json';
+import '../styles/FilterProductsTable.css';
 
 class filterProductTable extends Component {
     
@@ -34,7 +35,7 @@ class filterProductTable extends Component {
     render(){
         return(
             <section className="filterProductsTable">
-                <h2>Store</h2>
+                <h1>Store</h1>
                 <SearchBar searchProducts={this.searchProducts} checkInStock={this.checkInStock} />
                 <ProductTable products={this.filterProducts()} /> 
             </section>

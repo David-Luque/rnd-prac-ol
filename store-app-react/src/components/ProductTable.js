@@ -1,5 +1,6 @@
 import React from 'react';
 import ProductRow from './ProductRow';
+import '../styles/ProductTable.css';
 
 const productTable = (props)=>{
     
