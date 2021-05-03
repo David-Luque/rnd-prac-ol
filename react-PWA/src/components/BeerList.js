@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import Header from './Header';
-//import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ApiService from './Services/ApiService';
 
 class beerList extends Component {
     
-    state={
+    state = {
         allBeers: null,
         searchbar: "",
         foundBeers: null
@@ -57,16 +56,10 @@ class beerList extends Component {
         });
     };
     
-    displayLoading = ()=>{
-        return(
-            <img src={require('../assets/loading-image.png')} alt="loading..." />
-        );
-    };
-
     displayFoundBeers = ()=>{
         return this.state.foundBeers.map(beer => {
             return(
-                <Link>
+                <Link to={`/beers/${beer._id}`}>
                     <div key={beer._id}>
                         <img src={beer.image_url} alt={beer.name}/>
                         <p>{beer.name}</p>
@@ -78,8 +71,15 @@ class beerList extends Component {
         });
     };
 
+    displayLoading = ()=>{
+        return(
+            <img src={require('../assets/loading-image.png')} alt="loading..." />
+        );
+    };
+
+
     displayBeersData = ()=>{
-        if(this.state.foundBeer) {
+        if(this.state.foundBeers) {
             this.displayFoundBeers();
         } else {
             this.displayAllBeers();
@@ -91,7 +91,7 @@ class beerList extends Component {
         return(
             <div>
                 <Header/>
-                <input type="text" name="searchbar" placeholder="Seach a beer" onChange={(e)=>{this.handleSearch(e)}} />
+                <input type="text" name="searchbar" placeholder="Seach beer" onChange={(e)=>{this.handleSearch(e)}} />
                 {this.state.allBeers 
                     ? this.displayBeersData()
                     : this.displayLoading()
