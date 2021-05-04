@@ -7,7 +7,7 @@ class beerList extends Component {
     
     state = {
         allBeers: null,
-        searchbar: "",
+        searchBar: "",
         foundBeers: null
     };
 
@@ -25,19 +25,21 @@ class beerList extends Component {
 
     handleSearch = (event)=>{
         const { value } = event.target;
-        this.setState({ searchbar: value });
+        this.setState({ searchBar: value });
     };
     
-    componentDidUpdate = ()=>{
-        if(this.state.searchBar === ""){
-            this.setState({ foundBeers: null });
-        } else {
-            this.service.foundBeers(this.state.searchbar)
-            .then(response => {
-                this.setState({ foundBeers: response });
-            })
-            .catch(err => console.log(err))
-        }
+    componentDidUpdate = (prevProps, prevState)=>{
+        if(prevState.searchBar !== this.state.searchBar){
+            if(this.state.searchBar === ""){
+                this.setState({ foundBeers: null });
+            } else {
+                this.service.foundBeers(this.state.searchBar)
+                .then(response => {
+                    this.setState({ foundBeers: response });
+                })
+                .catch(err => console.log(err))
+            }
+        };
     };
 
 
@@ -59,14 +61,14 @@ class beerList extends Component {
     displayFoundBeers = ()=>{
         return this.state.foundBeers.map(beer => {
             return(
-                <Link to={`/beers/${beer._id}`}>
-                    <div key={beer._id}>
+                <div key={beer._id}>
+                    <Link to={`/beers/${beer._id}`}>
                         <img src={beer.image_url} alt={beer.name}/>
                         <p>{beer.name}</p>
                         <p>{beer.tagline}</p>
                         <p>{beer.contributed_by}</p>
-                    </div>
-                </Link>
+                    </Link>
+                </div>
             );
         });
     };
@@ -80,9 +82,9 @@ class beerList extends Component {
 
     displayBeersData = ()=>{
         if(this.state.foundBeers) {
-            this.displayFoundBeers();
+            return this.displayFoundBeers();
         } else {
-            this.displayAllBeers();
+            return this.displayAllBeers();
         }
     };
 
@@ -91,7 +93,7 @@ class beerList extends Component {
         return(
             <div>
                 <Header/>
-                <input type="text" name="searchbar" placeholder="Seach beer" onChange={(e)=>{this.handleSearch(e)}} />
+                <input type="text" name="searchBar" placeholder="Seach beer" onChange={(e)=>{this.handleSearch(e)}} />
                 {this.state.allBeers 
                     ? this.displayBeersData()
                     : this.displayLoading()
