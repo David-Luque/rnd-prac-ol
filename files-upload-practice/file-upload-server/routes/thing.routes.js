@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// include the model:
 const Thing = require('../models/Thing.model');
 
 router.get('/things', (req, res, next) => {
