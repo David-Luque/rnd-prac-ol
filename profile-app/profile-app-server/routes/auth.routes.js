@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const passport = require("passport")
 const bcrypt = require("bcryptjs")
+const uploader = require('../configs/cloudinary.config');
 
 const User = require("../models/user.model")
 
@@ -61,7 +62,7 @@ router.post('/auth/signup', (req, res, next) => {
 });
 
 
-router.post('/login', (req, res, next) => {
+router.post('/auth/login', (req, res, next) => {
     passport.authenticate('local', (err, theUser, failureDetails) => {
         if (err) {
             res.status(500).json({ message: 'Error authenticating user' });
@@ -78,26 +79,44 @@ router.post('/login', (req, res, next) => {
                 res.status(500).json({ message: 'Session error' });
                 return;
             }
-
             res.status(200).json(theUser);
         });
     })(req, res, next);
 });
 
 
-
-router.post('/logout', (req, res, next) => {
+router.post('/auth/logout', (req, res, next) => {
     req.logout();
     res.status(200).json({ message: 'Log out success!' });
 });
 
 
-router.get('/loggedin', (req, res, next) => {
+router.get('/auth/loggedin', (req, res, next) => {
     if (req.isAuthenticated()) {
         res.status(200).json(req.user);
         return;
     }
     res.status(403).json({ message: 'Unauthorized' });
+});
+
+router.post('/auth/edit', (req, res, next)=>{
+    const { username, course, campus } = req.body;
+    const userId = req.user._id;
+    User.findByIdAndUpdate(userId, {username, course, campus})
+    .then(()=>{
+        res.status(200).json({ message: "User successfully updated!" });
+    })
+    .catch(err => res.status(400).json({ message: "Error to update user" }))
+});
+
+
+router.post('/auth/upload', uploader.single('image'), (req, res, next)=>{
+    //console.log(req.file);
+    if(!req.file){
+        next(new Error('No file uploaded'));
+        return;
+    };
+    res.json({ image_url: req.file.path });
 });
 
 
