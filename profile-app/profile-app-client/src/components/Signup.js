@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import AuthService from '../services/AuthService';
+
 
 class signUp extends Component {
     
@@ -20,6 +22,7 @@ class signUp extends Component {
     handleFormSubmit = (event)=>{
         event.preventDefault();
         const { username, password, course, campus } = this.state;
+        //console.log (username, password, course, campus);
         this.service.signup(username, password, course, campus)
         .then(response => {
             this.setState({
@@ -28,7 +31,9 @@ class signUp extends Component {
                 course: "",
                 campus: ""
             });
+            console.log(response)
             this.props.getUserInfo(response);
+            //this.props.history.push("/profile");
         })
         .catch(err => console.log(err))
     };
@@ -37,7 +42,7 @@ class signUp extends Component {
         return(
             <div>
                 <h2>Sign up</h2>
-                <form onSubmit={(e)=>{this.handleFormSubmit(e)}} >
+                <form onSubmit={this.handleFormSubmit} >
                     <label>Username</label><br />
                     <input type="text" name="username" value={this.state.username} onChange={(e)=>{this.hadleChange(e)}} />
                     <br /><br />
@@ -52,6 +57,11 @@ class signUp extends Component {
                     <br /><br />
                     <button>Create account</button>
                 </form>
+                <p>
+                    Already have an account?
+                    <br />
+                    <Link to="/login">Log in</Link>
+                </p>
             </div>
         );
     };

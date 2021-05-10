@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import AuthService from '../services/AuthService';
 import { Link } from 'react-router-dom';
+import AuthService from '../services/AuthService';
 
 
-class logIn extends Component {
-    
+class logIn extends Component {    
+
     state = {
         username: "",
         password: ""
@@ -27,6 +27,7 @@ class logIn extends Component {
                 password: ""
             });
             this.props.getUserInfo(response);
+            // this.props.history.push("/profile");
         })
         .catch(err => console.log(err))
     };
@@ -36,7 +37,7 @@ class logIn extends Component {
         return(
             <div>
                 <h2>Log in</h2>
-                <form>
+                <form onSubmit={this.handleFormSubmit} >
                     <label>Username</label><br />
                     <input type="text" name="username" value={this.state.username} onChange={(e)=>{this.handleChange(e)}} />
                     <br /><br />

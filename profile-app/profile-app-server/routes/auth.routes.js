@@ -11,8 +11,8 @@ router.post('/auth/signup', (req, res, next) => {
 
     const { username, password, course, campus } = req.body;  
 
-    if (!username || !password || !course || !campus) {
-        res.status(400).json({ message: 'Empty fields' });
+    if (!username || !password) {
+        res.status(400).json({ message: 'Username and password are required' });
         return;
     }
 
@@ -40,7 +40,8 @@ router.post('/auth/signup', (req, res, next) => {
             username,
             password: hashPass,
             course,
-            campus
+            campus,
+            image: ""
         });
 
         newUser.save(err => {
@@ -100,9 +101,9 @@ router.get('/auth/loggedin', (req, res, next) => {
 });
 
 router.post('/auth/edit', (req, res, next)=>{
-    const { username, course, campus } = req.body;
+    const { username, course, campus, image} = req.body;
     const userId = req.user._id;
-    User.findByIdAndUpdate(userId, {username, course, campus})
+    User.findByIdAndUpdate(userId, {username, course, campus, image})
     .then(()=>{
         res.status(200).json({ message: "User successfully updated!" });
     })

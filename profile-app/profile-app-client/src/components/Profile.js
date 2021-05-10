@@ -10,8 +10,23 @@ class profile extends Component {
     service = new AuthService();
 
     componentDidMount = ()=>{
-        this.setState({ userInfo: this.props.loggedUser });
+        this.searchUserInfo();
     };
+
+    searchUserInfo = ()=>{
+        this.service.loggedin()
+        .then(responseFromApi => {
+            console.log(responseFromApi)
+            this.setState({ userInfo: responseFromApi });
+        })
+        .catch(err => console.log(err))
+    };
+
+    // componentDidUpdate = (prevProps)=>{
+    //     if(prevProps === this.props.loggedUser){
+    //         this.setState({ userInfo: this.props.loggedUser });
+    //     };
+    // };
 
     handleFileUpload = (event)=>{
         const uploadData = new FormData();
@@ -20,6 +35,10 @@ class profile extends Component {
         this.service.upload(uploadData)
         .then(response => {
             this.setState({ userInfo: {...this.state.userInfo, image: response.image_url} });
+            const { username, course, campus, image } = this.state.userInfo;
+            this.service.edit(username, course, campus, image)
+            .then(response => console.log(response))
+            .catch(err => console.log(err))
         })
         .catch(err => {
             console.log("Error while uploading file: ", err)
@@ -27,38 +46,37 @@ class profile extends Component {
     };
 
     handleLogOut = ()=>{
-        this.service.logout();
-        this.props.history.push("/");
+        this.service.logout()
+        .then(response => console.log(response))
+        .catch(err => console.log(err))
+        //this.props.history.push("/");
     };
 
-    renderDefaultImage = ()=>{
-        const defaultImage = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
-        return defaultImage;
+    renderImage = ()=>{
+        if(this.state.userInfo.image === ""){
+            const defaultImage = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
+            return defaultImage;
+        } else {
+            return this.state.userInfo.image
+        }
     };    
-
 
     displayUserInfo = ()=>{
         return(
             <div>
                 <div>
-                    <h2>Profile</h2>
+                    <h2>Profile page</h2>
                     <p>Username</p>
-                    <p>{this.state.username}</p>
+                    <p>{this.state.userInfo.username}</p>
                     <p>Campus</p>
-                    <p>{this.state.campus}</p>
+                    <p>{this.state.userInfo.campus}</p>
                     <p>Course</p>
-                    <p>{this.state.course}</p>
-                    <button>Logout</button>
+                    <p>{this.state.userInfo.course}</p>
+                    <button onClick={()=>{this.handleLogOut()}} >Logout</button>
                 </div>
                 <div>
-                    <img
-                        src={this.state.userInfo.image !== ""
-                            ? this.state.userInfo.image
-                            : this.renderDefaultImage()
-                        }
-                        alt={`${this.state.userInfo.username}`}
-                    />
-                    <input type="file" name="" onChange={(e)=>{this.handleFileUpload(e)}}  />
+                    <img src={this.renderImage()} alt={this.state.userInfo.username} />
+                    <input type="file" onChange={(e)=>{this.handleFileUpload(e)}}  />
                 </div>
             </div>
         );
