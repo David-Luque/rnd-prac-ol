@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AuthService from '../services/AuthService';
+import { withRouter } from 'react-router-dom';
 
 class profile extends Component {
     
@@ -22,12 +23,6 @@ class profile extends Component {
         .catch(err => console.log(err))
     };
 
-    // componentDidUpdate = (prevProps)=>{
-    //     if(prevProps === this.props.loggedUser){
-    //         this.setState({ userInfo: this.props.loggedUser });
-    //     };
-    // };
-
     handleFileUpload = (event)=>{
         const uploadData = new FormData();
         uploadData.append('image', event.target.files[0]);
@@ -47,9 +42,14 @@ class profile extends Component {
 
     handleLogOut = ()=>{
         this.service.logout()
-        .then(response => console.log(response))
+        .then(response => {
+            //console.log(response);
+            this.setState({ userInfo: null });
+            this.props.getUserInfo(null);
+            this.props.history.push("/");
+        })
         .catch(err => console.log(err))
-        //this.props.history.push("/");
+        
     };
 
     renderImage = ()=>{
@@ -91,4 +91,4 @@ class profile extends Component {
     };
 };
 
-export default profile;
+export default withRouter(profile);

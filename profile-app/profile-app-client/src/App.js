@@ -5,10 +5,8 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import AuthService from './services/AuthService';
+import ProtectedRoute from './components/ProtectedRoute';
 
-//TODO: probar a guardar imagen y que se rendericen ambas, tenga o no el user
-// TODO: redirigir a profile
-// TODO: ver por que el componente profile falla al cargar el state y no renderiza
 
 class App extends Component {
 
@@ -38,19 +36,28 @@ class App extends Component {
     this.setState({ loggedInUser: userInfo });
   };
 
+  renderButtons = ()=>{
+    return(
+      <div>
+        <Link to="/signup"><button>Sign Up</button></Link>
+        <Link to="/login"><button>Log in</button></Link> 
+      </div>
+    )
+  };
+
   render(){
     this.fetchUser();
     return (
       <div className="App">
         <h2>Profile app</h2>
-        <Link to="/signup"><button>Sign Up</button></Link>
-        <Link to="/login"><button>Log in</button></Link>
+        <h3>Home</h3>
+        {!this.state.loggedInUser && this.renderButtons()}
         {this.state.loggedInUser && <Link to="/profile"><button>Your profile</button></Link> }
 
         <Switch>
           <Route exact path="/signup" render={()=> <Signup getUserInfo={this.getUserInfo} />} />
           <Route exact path="/login" render={()=> <Login getUserInfo={this.getUserInfo} />} />
-          <Route exact path="/profile" render={()=> <Profile loggedUser={this.state.loggedInUser} />} />
+          <ProtectedRoute user={this.state.loggedInUser} path="/profile" component={Profile} />
         </Switch>
       </div>
     );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import AuthService from '../services/AuthService';
 
 
@@ -27,7 +27,7 @@ class logIn extends Component {
                 password: ""
             });
             this.props.getUserInfo(response);
-            // this.props.history.push("/profile");
+            this.props.history.push("/profile");
         })
         .catch(err => console.log(err))
     };
@@ -56,4 +56,4 @@ class logIn extends Component {
     };
 };
 
-export default logIn;
+export default withRouter(logIn);
