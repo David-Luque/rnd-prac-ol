@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AuthService from '../services/AuthService';
 import { withRouter } from 'react-router-dom';
 
-class profile extends Component {
+class Profile extends Component {
     
     state = {
         userInfo: null
@@ -17,7 +17,7 @@ class profile extends Component {
     searchUserInfo = ()=>{
         this.service.loggedin()
         .then(responseFromApi => {
-            console.log(responseFromApi)
+            //console.log(responseFromApi)
             this.setState({ userInfo: responseFromApi });
         })
         .catch(err => console.log(err))
@@ -91,4 +91,4 @@ class profile extends Component {
     };
 };
 
-export default withRouter(profile);
+export default withRouter(Profile);
