@@ -69,7 +69,7 @@ describe('Queue', () => {
     it('should insert the elements in the received order', () => {
       queue.enqueue(19);
       queue.enqueue(88);
-      expect(queue.queueControl).toEqual([19, 88]);
+      expect(queue.queueControl).toEqual([88, 19]);
     });
 
     it('should throw error with message "QUEUE_OVERFLOW" if the queue is full', () => {
