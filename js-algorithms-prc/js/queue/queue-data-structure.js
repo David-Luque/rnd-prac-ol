@@ -25,8 +25,9 @@ class Queue {
 
   dequeue() {
     if(!this.isEmpty()) {
-      this.queueControl.shift()
-      return this.queueControl[0]
+      const lastValue = this.queueControl[this.queueControl.length - 1]
+      this.queueControl.pop()
+      return lastValue;
     } else {
       throw new Error('QUEUE_UNDERFLOW')
     }
